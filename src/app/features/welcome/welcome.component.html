@@ -1,0 +1,6 @@
+<h2>👋 Welcome Page</h2>
+<label for="name">Enter your name:</label>
+<input id="name" type="text" [value]="name()" (input)="onNameInput($event)" />
+@if (name()) {
+    <p>Hello, {{ name() }}! Nice to see you 😊</p>
+  }
