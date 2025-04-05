@@ -18,6 +18,10 @@ export const routes: Routes = [
             {
                 path: 'counter',
                 loadComponent: () => import('./features/ccounter/ccounter.component').then(m => m.CcounterComponent)
+            },
+            {
+                path: 'login',
+                loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent)
             }
         ]
     }

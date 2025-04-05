@@ -1,0 +1,33 @@
+<div class="max-w-md mx-auto mt-12 p-6 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold mb-6">🔐 Login</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Email</label>
+      <input type="email" formControlName="email" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400
+               transition-all duration-150"
+        [class.border-red-500]="form.get('email')?.invalid && form.get('email')?.touched" />
+
+      @if (form.get('email')?.invalid && form.get('email')?.touched) {
+      <p class="text-sm text-red-500 mt-1">لطفاً یک ایمیل معتبر وارد کن</p>
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Password</label>
+      <input type="password" formControlName="password" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400
+               transition-all duration-150"
+        [class.border-red-500]="form.get('password')?.invalid && form.get('password')?.touched" />
+
+      @if (form.get('password')?.invalid && form.get('password')?.touched) {
+      <p class="text-sm text-red-500 mt-1">رمز عبور باید حداقل ۶ کاراکتر باشد</p>
+      }
+    </div>
+
+    <button type="submit"
+      class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
+      [disabled]="form.invalid || loading()">
+      {{ loading() ? 'در حال ورود...' : 'ورود' }}
+    </button>
+  </form>
+</div>
