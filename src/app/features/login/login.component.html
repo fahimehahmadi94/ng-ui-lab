@@ -23,7 +23,9 @@
       <p class="text-sm text-red-500 mt-1">رمز عبور باید حداقل ۶ کاراکتر باشد</p>
       }
     </div>
-
+    @if (error()) {
+    <p class="text-sm text-red-600 mb-4">{{ error() }}</p>
+    }
     <button type="submit"
       class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50"
       [disabled]="form.invalid || loading()">

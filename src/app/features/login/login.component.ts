@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../core/services/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
@@ -11,22 +13,38 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  loading = signal(false);
-
+  private auth = inject(AuthService);
 
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   })
 
+  loading = signal(false);
+  error = signal('');
 
   onSubmit() {
     if (this.form.invalid) return;
+  
     this.loading.set(true);
-
-    setTimeout(() => {
-      console.log('ورود موفق با:', this.form.value);
-      this.loading.set(false);
-    }, 2000)
+    this.error.set('');
+  
+    const { email, password } = this.form.value;
+  
+    this.auth.login(email, password).subscribe({
+      next: (success) => {
+        if (success) {
+          alert('✅ ورود موفق!');
+        } else {
+          this.error.set('❌ کاربر پیدا نشد');
+        }
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('خطا در ارتباط با سرور!');
+        this.loading.set(false);
+      }
+    });
   }
+  
 }
