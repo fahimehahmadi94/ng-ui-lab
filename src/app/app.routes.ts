@@ -13,9 +13,5 @@ export const routes: Routes = [
     {
         path: 'counter',
         loadComponent: () => import('./features/ccounter/ccounter.component').then(m => m.CcounterComponent)
-    },
-    {
-        path: '**',
-        redirectTo: 'welcome',
-    },
+    }
 ];
