@@ -9,5 +9,13 @@ export const routes: Routes = [
     {
         path: 'welcome',
         loadComponent: () => import('./features/welcome/welcome.component').then(m => m.WelcomeComponent)
-    }
+    },
+    {
+        path: 'counter',
+        loadComponent: () => import('./features/ccounter/ccounter.component').then(m => m.CcounterComponent)
+    },
+    {
+        path: '**',
+        redirectTo: 'welcome',
+    },
 ];
