@@ -16,8 +16,9 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {
     const url = `${this.api}?email=${email}&password=${password}`;
     return this.http.get<User[]>(url).pipe(
-      map(users => users.length > 0 )
+      map(users => users.length > 0)
     )
   }
+
 
 }

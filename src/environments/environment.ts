@@ -1,4 +1,3 @@
 export const environment = {
-    apiUrl: 'https://67f12aaec733555e24ac596c.mockapi.io/'
-  };
-  
+  apiUrl: 'http://localhost:3000'
+};

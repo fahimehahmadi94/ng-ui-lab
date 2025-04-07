@@ -41,7 +41,7 @@ export class LoginComponent {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('خطا در ارتباط با سرور!');
+        this.error.set('⚠️ خطا در ارتباط با سرور!');
         this.loading.set(false);
       }
     });
