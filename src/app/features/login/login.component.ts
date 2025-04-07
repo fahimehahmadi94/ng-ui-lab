@@ -3,6 +3,8 @@ import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { UserService } from '../../core/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
-  private auth = inject(AuthService);
+  private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private router = inject(Router);
 
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -25,18 +29,19 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.form.invalid) return;
-  
+
     this.loading.set(true);
     this.error.set('');
-  
+
     const { email, password } = this.form.value;
-  
-    this.auth.login(email, password).subscribe({
-      next: (success) => {
-        if (success) {
-          alert('✅ ورود موفق!');
+
+    this.authService.login(email, password).subscribe({
+      next: (users) => {
+        if (users.length > 0) {
+          this.userService.setUser(users[0]);
+          this.router.navigate(['/dashboard']);
         } else {
-          this.error.set('❌ کاربر پیدا نشد');
+          this.error.set('❌ کاربر پیدا نشد')
         }
         this.loading.set(false);
       },
@@ -44,7 +49,8 @@ export class LoginComponent {
         this.error.set('⚠️ خطا در ارتباط با سرور!');
         this.loading.set(false);
       }
+
     });
   }
-  
+
 }
